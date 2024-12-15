@@ -12,8 +12,6 @@ fun main(){
     //Llamamos a la funcion menu
     menu(scan)
 
-    //Llamamos a la funcion de zonas
-
     //Llamamos a la funcion de cerrar scanner
     cerrarScanner(scan)
 }
@@ -91,5 +89,39 @@ fun precios(tipoBitllet: String, zonaSeleccionada: Int): Double {
 }
 
 //Hacer precios
-//Imprimir ticket si el usuario queire o no
-//Emparejarlo en el fun main y dokka y test
+fun pagar (preuFinal: Double, scanner: Scanner): Double{
+
+    println("El preu final es $preuFinal€. Introduexi els diners:")
+
+    var dinero_Introducido = 0.0
+    while (dinero_Introducido < preuFinal) {
+
+        val dinero = scanner.nextDouble()
+
+        //Comprobamos si el dinero es aceptable
+        if (dinero in arrayOf(0.05, 0.10, 0.20, 0.50, 1.00, 2.00, 5.00, 10.00, 20.00, 50.00)){
+            dinero_Introducido += dinero
+        }
+        else {
+            println("Aquest diner no es valid. Introduexi una altre moneda")
+        }
+        //Le imprimimos el dinero que le falta por introducir
+        println("Et falten ${preuFinal - dinero_Introducido}€. Introdueix un altre tipús de moneda")
+    }
+
+    //Devolvemos el final y el dinero introducido
+    return dinero_Introducido - preuFinal
+}
+
+    //Creamos la funcion de crear ticket
+fun ticket (billet: String, zona: Int, precio: Double, canvi: Double){
+
+    //Imprimimos el ticket
+    println("----------TICKET----------")
+    println("Billet: $billet")
+    println("Zona: $zona")
+    println("Precio: $precio")
+    println("Canvi: $canvi")
+    println("-------------------------")
+
+}
