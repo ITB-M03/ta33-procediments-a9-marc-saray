@@ -122,6 +122,6 @@ fun ticket (billet: String, zona: Int, precio: Double, canvi: Double){
     println("Zona: $zona")
     println("Precio: $precio")
     println("Canvi: $canvi")
-    println("-------------------------")
+    println("-------------------------" )
 
 }
