@@ -10,34 +10,88 @@ fun main(){
     val scan: Scanner = abrirScanner()
 
     //Llamamos a la funcion menu
-    menu(scan)
+    gestionarCompra(scan)
 
     //Llamamos a la funcion de cerrar scanner
     cerrarScanner(scan)
 }
 
-//Funcion Menu
-fun menu(scanner: Scanner): String{
+fun gestionarCompra(scanner: Scanner) {
 
-    //Creamos el menu para el usuario
-    println("1. Bitllet senzill\n" +
-            "2. TCasual\n" +
-            "3. TUsual\n" +
-            "4. TFamiliar\n" +
-            "5. TJove")
+    var etapas = 0
+    //Iremos fase por fase
 
-    val numero = scanner.nextInt()
-    return when(numero){
-        1 -> "Bitllet senzill"
-        2 -> "TCasual"
-        3 -> "TUsual"
-        4 -> "TFamiliar"
-        5 -> "TJove"
-        else -> "Numero no valid"
+    while (etapas <= 5) {
+        //Fase 1 -> Menu
+        val billete = menu(scanner)
+        if (billete == "Cancelant operació"){
+            etapas++
+        }
+
+        else{
+
+            //Fase 2 -> Zona
+            val zona = zonas(scanner)
+            if (zona == -1){
+                etapas--
+            }
+            else{
+                etapas++
+
+                //Fase 3 -> precios
+                val precioFinal = precios(billete, zona)
+                println("El preu del bitllet $billete per a la zona $zona és $precioFinal €, introduexi els diners")
+
+
+                //Fase 4 -> Pagar
+                val canvio = pagar(precioFinal, scanner)
+                println("El teu canvi és $canvio €")
+
+                scanner.nextLine()
+
+                //Fase 5 -> Ticket [S/N]
+                println("Vols imprimir el tiquet? (S/N)")
+                val imprimirTicket = scanner.nextLine().uppercase()
+                if (imprimirTicket == "S"){
+                    etapas = 0
+                    ticket(billete, zona, precioFinal)
+
+                } else if (imprimirTicket == "N"){
+                    println("Gràcies per la seva compra!")
+                    etapas = 0
+
+                }
+            }
+        }
     }
 }
 
-//Creamos la funcion zonas
+
+//Funcion Menu -> 1
+fun menu(scanner: Scanner): String {
+    //Creamos el menú para el usuario
+    println("1. Bitllet senzill\n" + "2. TCasual\n" + "3. TUsual\n" + "4. TFamiliar\n" + "5. TJove")
+
+    return try {
+        val numero = scanner.nextInt()
+        scanner.nextLine()
+        when (numero) {
+            1 -> "Bitllet senzill"
+            2 -> "TCasual"
+            3 -> "TUsual"
+            4 -> "TFamiliar"
+            5 -> "TJove"
+            else -> "Cancelant operació"
+        }
+    } catch (e: InputMismatchException) {
+
+        scanner.nextLine()
+
+        "Operacio Cancelada"
+    }
+}
+
+//Creamos la funcion zonas -> 2
 fun zonas (scanner: Scanner):Int {
 
     //Creamos una variable inicializando a 3 porque el usuario solo tiene 3 intentos
@@ -53,7 +107,7 @@ fun zonas (scanner: Scanner):Int {
         if (numero_zonas in 1..3){
             return numero_zonas
         } else {
-            println("Aquest numero no es valid")
+            println("Cancelant operació")
         }
     }
 
@@ -62,7 +116,7 @@ fun zonas (scanner: Scanner):Int {
     return -1
 }
 
-//Creamos la funcion de los precios
+//Creamos la funcion de los precios -> 3
 fun precios(tipoBitllet: String, zonaSeleccionada: Int): Double {
     //Precios zona 1
     val preusPrimerZona = mapOf(
@@ -88,40 +142,36 @@ fun precios(tipoBitllet: String, zonaSeleccionada: Int): Double {
     }
 }
 
-//Hacer precios
+//Hacemos la funcion de pagar -> 4
 fun pagar (preuFinal: Double, scanner: Scanner): Double{
-
-    println("El preu final es $preuFinal€. Introduexi els diners:")
 
     var dinero_Introducido = 0.0
     while (dinero_Introducido < preuFinal) {
 
         val dinero = scanner.nextDouble()
+        var dinero_Aceptado = arrayOf(0.05, 0.10, 0.20, 0.50, 1.00, 2.00, 5.00, 10.00, 20.00, 50.00)
 
         //Comprobamos si el dinero es aceptable
-        if (dinero in arrayOf(0.05, 0.10, 0.20, 0.50, 1.00, 2.00, 5.00, 10.00, 20.00, 50.00)){
+        if (dinero in dinero_Aceptado){
             dinero_Introducido += dinero
         }
         else {
-            println("Aquest diner no es valid. Introduexi una altre moneda")
+            println("Aquest diners no es valid. Introduexi una altre moneda")
         }
-        //Le imprimimos el dinero que le falta por introducir
-        println("Et falten ${preuFinal - dinero_Introducido}€. Introdueix un altre tipús de moneda")
     }
 
     //Devolvemos el final y el dinero introducido
     return dinero_Introducido - preuFinal
 }
 
-    //Creamos la funcion de crear ticket
-fun ticket (billet: String, zona: Int, precio: Double, canvi: Double){
+//Creamos la funcion de crear ticket -> 5
+fun ticket (billet: String, zona: Int, precio: Double){
 
     //Imprimimos el ticket
     println("----------TICKET----------")
     println("Billet: $billet")
     println("Zona: $zona")
     println("Precio: $precio")
-    println("Canvi: $canvi")
     println("-------------------------" )
 
 }
