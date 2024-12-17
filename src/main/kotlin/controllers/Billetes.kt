@@ -188,7 +188,7 @@ fun zona(listabilletes: MutableList<Billetes>, zonas: Int, scan: Scanner): Int {
         if (zona in 0..3) {
             continuar = true
         } else {
-            println("Opción incorrecta, por favor introduzca un número del 1 al 3.")
+            println("Opció incorrecta, introdueix un número del 1 al 3.")
         }
 
     } while (!continuar)
@@ -327,7 +327,7 @@ fun pago(scan: Scanner, precio: Double) {
         }
 
         if (precioRestante < 0.0) {
-            println("Pago completado. Su cambio es: ${"%.2f".format(-precioRestante)}€")
+            println("Pagament completat. El seu canvi es: ${"%.2f".format(-precioRestante)}€")
         }
     }
 }
@@ -352,7 +352,7 @@ fun usuario_ticket(scan: Scanner, tiposBilletes: MutableList<String>, zona: Int,
     if (ticket_si_no == "S") {
         imprimirTiquet()
     } else {
-        println("Gracias por la compra.")
+        println("Gracias per la seva compra.")
     }
 }
 /**
