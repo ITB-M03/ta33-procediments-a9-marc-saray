@@ -19,8 +19,19 @@ fun main(){
     cerrarScanner(scan)
 
 }
+//Creamos la funcion que iniciara todas las funciones
+fun iniciarPrograma (){
 
-fun pedirNumero(scan : Scanner) : Int {
+}
+
+fun pedirNumero(scan : Scanner) : Double {
+    var numero : Double
+
+    numero = scan.nextDouble()
+
+    return numero
+}
+fun pedirInt(scan : Scanner) : Int {
     var numero : Int
 
     numero = scan.nextInt()
@@ -42,9 +53,9 @@ fun preu_Billet (): MutableList<Billetes>{
 }
 
 //Creamos la funcion del menu
-fun menu (scan: Scanner): Int{
+fun menu (scan: Scanner): Double{
 
-    var tipo_billete : Int
+    var tipo_billete : Double
 
     println("Quin billet desitja adquirir?" + "1. Bitllet senzill\n" + "2. TCasual\n" + "3. TUsual\n" + "4. TFamiliar\n" + "5. TJove")
 
@@ -59,12 +70,12 @@ fun zona(listabilletes: MutableList<Billetes>, zonas: Int, scan: Scanner): Int{
 
     println("Quina zona vol viajar"+ "1\n" + "2\n" + "3.")
 
-    zona = pedirNumero(scan)
+    zona = pedirInt(scan)
     mostrarBillete(listabilletes,zona,zonas)
 
     return zona
-
 }
+
 //Creamos la funcion para mostrar el billete
 fun mostrarBillete(listabilletes: MutableList<Billetes>, zona: Int, zonas: Int)
 {
@@ -122,15 +133,15 @@ fun precio_zona (listabilletes: MutableList<Billetes>, zonas: Int, tipoBilleteSe
 }
 
 //Creamos la funcion de comprobar si el dinero que ingresa el usuario es aceptado o no
-fun dinero (scan: Scanner): Double {
+fun dinero (scan: Scanner): Int {
     //Le damos valor al resultado
-    var resultado: Double
+    var resultado: Int
     var aceptado = false
 
 
     do {
         println("Introduexi el diners")
-        resultado = pedirNumero(scan)
+        resultado = pedirInt(scan)
 
         if (resultado in dineroaceptado) {
             aceptado = true
