@@ -45,31 +45,34 @@ fun iniciarPrograma(listabilletes: MutableList<Billetes>, scan: Scanner) {
     var precioTotal: Double = 0.0
     var seguir = true
     val zonas = 3
-    var etapas = 1 // Contador para las etapas de la máquina
+    var etapas = 1
     var zonaSeleccionada = 1
 
-    while (seguir && etapas < 3) {
-        val billete = menu(scan) // Pedir tipo de billete
+    while (seguir && etapas <= 3) {
+        val billete = menu(scan)
         if (billete == 0) {
             println("No pots tirar enrere des d'aquesta etapa inicial.")
             etapas++
+            continue // Asegúrate de continuar el bucle
         }
 
-        val zona = zona(listabilletes, zonas, scan) // Pedir zona de billete
-        if (zona == 0) { // Si el usuario selecciona "Tornar enrere"
+        val zona = zona(listabilletes, zonas, scan)
+        if (zona == 0) {
             etapas--
+            continue // Asegúrate de continuar el bucle
         }
 
-        zonaSeleccionada = zona // Actualizamos la última zona seleccionada
-        precioTotal += precio_zona(listabilletes, zona, billete) // Calcular el precio total
+        zonaSeleccionada = zona
+        precioTotal += precio_zona(listabilletes, zona, billete)
         etapas++
-        seguir = continua_o_no(scan) // Si quieres más billetes
+        seguir = continua_o_no(scan)
     }
 
-    precioFinal = precioTotal // Actualizamos el precio final antes del pago
+    precioFinal = precioTotal
     pago(scan, precioTotal)
-    usuario_ticket(scan, tiposBilletes, zonaSeleccionada, precioTotal) // Imprimir ticket si el usuario lo desea
+    usuario_ticket(scan, tiposBilletes, zonaSeleccionada, precioTotal)
 }
+
 /**
  *@author Marc Cuenca
  * @version 1.0
@@ -139,6 +142,8 @@ fun menu(scan: Scanner): Int {
 
         tipo_billete = pedirInt(scan)
 
+        scan.nextLine()
+
         if (tipo_billete in 0..5) {
             continuar = true
         } else {
@@ -177,6 +182,8 @@ fun zona(listabilletes: MutableList<Billetes>, zonas: Int, scan: Scanner): Int {
         )
 
         zona = pedirInt(scan)
+
+        scan.nextLine()
 
         if (zona in 0..3) {
             continuar = true
@@ -224,9 +231,11 @@ fun mostrarBillete(listabilletes: MutableList<Billetes>, zona: Int, zonas: Int) 
 fun continua_o_no(scan: Scanner): Boolean {
     var continua = false
     var error = true
+
     while (error) {
         println("Vol continuar comprant[S/N]")
-        val usuario = scan.nextLine().uppercase()
+        val usuario = scan.nextLine().uppercase()  // Este nextLine ya consume el salto de línea
+
         if (usuario == "S") {
             continua = true
             error = false
@@ -285,6 +294,7 @@ fun dinero(scan: Scanner): Int {
     do {
         println("Introduexi el diners")
         resultado = pedirInt(scan)
+        scan.nextLine()
         if (resultado in dineroaceptado) {
             aceptado = true
         } else {
