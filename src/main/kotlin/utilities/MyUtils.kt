@@ -1,3 +1,4 @@
+
 package utilities
 import java.util.*
 
@@ -11,3 +12,4 @@ fun abrirScanner() : Scanner {
 fun cerrarScanner(scan : Scanner) {
     scan.close()
 }
+
