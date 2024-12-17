@@ -37,7 +37,7 @@ fun iniciarPrograma(listabilletes: MutableList<Billetes>, scan: Scanner) {
         seguir = continua_o_no(scan) //Si quieres mas Billetes
     }
     pago(scan, precioTotal)
-    //usuario_ticket(scan, tiposBilletes, zona, precioFinal)
+    usuario_ticket(scan, tiposBilletes, zonas, precioFinal)
 }
 
 
