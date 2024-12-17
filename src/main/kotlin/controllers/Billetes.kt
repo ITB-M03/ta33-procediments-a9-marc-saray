@@ -23,32 +23,32 @@ fun main(){
 }
 //Creamos la funcion que iniciara todas las funciones
 fun iniciarPrograma(listabilletes: MutableList<Billetes>, scan: Scanner) {
-    val password = 4321
     var precioTotal: Double = 0.0
     var seguir = true
-    val zonas = 3  // Definir la cantidad de zonas disponibles, puedes cambiar este valor
-    var etapas = 1 // Contador para las etapas de la maquina
+    val zonas = 3
+    var etapas = 1 //Contador para las etapas de la maquina
 
     while(seguir && etapas < 3){
-        val billete = menu(scan) // Pedir tipo Billete
-        val zona = zona(listabilletes, zonas, scan) //Pedir zona de billete
-        etapas++
-        precioTotal += precio_zona(listabilletes, zona, billete) //Calcular Precio
-        seguir = continua_o_no(scan) //Si quieres mas Billetes
+            val billete = menu(scan) // Pedir tipo Billete
+            val zona = zona(listabilletes, zonas, scan) //Pedir zona de billete
+            etapas++
+            precioTotal += precio_zona(listabilletes, zona, billete) //Calcular Precio
+            seguir = continua_o_no(scan) //Si quieres mas Billetes
+
+            etapas = 1
+        }
+        pago(scan, precioTotal)
+        usuario_ticket(scan, tiposBilletes, zonas, precioFinal)
     }
-    pago(scan, precioTotal)
-    usuario_ticket(scan, tiposBilletes, zonas, precioFinal)
-}
+
 
 
 fun pedirNumero(scan : Scanner) : Double {
     var numero : Double
-
-    numero = scan.nextDouble()
-
+    numero= scan.nextDouble()
     return numero
 }
-//
+
 fun pedirInt(scan : Scanner) : Int {
     var numero : Int
 
@@ -111,8 +111,10 @@ fun zona(listabilletes: MutableList<Billetes>, zonas: Int, scan: Scanner): Int{
 }
 
 //Creamos la funcion para mostrar el billete
-fun mostrarBillete(listabilletes: MutableList<Billetes>, zona: Int, zonas: Int)
-{
+fun mostrarBillete(listabilletes: MutableList<Billetes>, zona: Int, zonas: Int) {
+
+    var tiposBilletes = mutableListOf<String>()
+
     var opcion_billete = listabilletes[zona - 1].billete
     tiposBilletes.add(opcion_billete)
     println("Ha escollit la opcio: $opcion_billete, zona $zona")
@@ -123,16 +125,24 @@ fun mostrarBillete(listabilletes: MutableList<Billetes>, zona: Int, zonas: Int)
 fun continua_o_no(scan: Scanner): Boolean{
     //Le damos el valor al resultado
     var continua = false
-
     //Le pedimos informacion al usuario
     println("Vol continuar comprant[S/N]")
-    var usuario = scan.nextLine().uppercase()
+    var error = true
+    while (error){
+        var usuario = scan.nextLine().uppercase()
+        if (usuario == "S"){
+            continua = true
+            error = false
+        }else if (usuario == "N"){
+            continua = false
+            error = false
+        }
+        else{
+            println("Opcion incorrecta")
+        }
 
-    if (usuario == "S"){
-        continua = true
-    }else if (usuario == "N"){
-        continua = false
     }
+
     return continua
 }
 
@@ -147,7 +157,6 @@ fun precio_zona (listabilletes: MutableList<Billetes>, zonas: Int, tipoBilleteSe
     //Les damos los valores a las zonas
     var multi_zona_2 = 1.3125
     var multi_zona_3 = 1.8443
-
 
     //Hacemos los calculos
     zona_precio = listabilletes[lista -1].precio
@@ -211,14 +220,14 @@ fun pago(scan: Scanner, precio: Double) {
 }
 
 //Creamos la funcion por si el usuario quiere ticket o no
-fun usuario_ticket(scan: Scanner, tiposBilletes: MutableList<String>, zona: Int, precioFinal: Double) {
+fun usuario_ticket(scan: Scanner, tiposBilletes: MutableList<String>, zona: Int, precio: Double) {
     // Le pedimos al usuario si quiere un ticket
     println("Vol el Ticket? (S/N)")
     val ticket_si_no = scan.nextLine().uppercase()  //Leemos la respuesta del usuario
 
     if (ticket_si_no == "S") {
         // Llamamos a la función para imprimir el ticket
-        imprimirTiquet(tiposBilletes, zona, precioFinal)
+        imprimirTiquet(tiposBilletes, zona, precio)
     } else {
         println("Gracias por la compra.")
     }
