@@ -1,14 +1,17 @@
 package utilities
 import java.util.*
 
-fun abrirScanner () : Scanner {
-    var scan : Scanner = Scanner(System.`in`)
-    //devolvemos el scan
+fun abrirScanner() : Scanner {
+    var scan = Scanner(System.`in`).useLocale(Locale.UK)
+
     return scan
 }
 
-//Hacemos una funcion para cerrar el scanner
-fun cerrarScanner (scan: Scanner){
+/**
+ *Cierre del Scanner
+ * @author Angel Sardinha
+ * @param scan --> la funcion que contiene el scanner
+ */
+fun cerrarScanner(scan : Scanner) {
     scan.close()
-
 }
