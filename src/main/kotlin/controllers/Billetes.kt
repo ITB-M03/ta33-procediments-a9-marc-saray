@@ -14,13 +14,32 @@ var dineroaceptado = listOf(0.05, 0.10, 0.20, 0.50, 1, 2, 5, 10, 20, 50)
 var tiposBilletes = mutableListOf<String>()
 var billeteEscogidoZonaPrecio = mutableListOf<Double>()
 var precioFinal = 0.0
-
+/**
+ * Función principal que inicia el programa
+ *
+ *@author Marc Cuenca
+ * @version 1.0
+ *
+ * @param listabilletes Lista mutable de objetos Billetes que contienen los datos de los billetes disponibles
+ * @param scan lee los numeros que pone el usuario
+ *
+ */
 fun main() {
     val scan = abrirScanner()
     val listaDeBilletes = preu_Billet()
     iniciarPrograma(listaDeBilletes, scan)
     cerrarScanner(scan)
 }
+
+/**
+ * La funcion inicia el programa que hara un bucle hasta que el usuario compre su ticket llamando a las otras funciones
+ *
+ *@author Marc Cuenca
+ * @version 1.0
+ *
+ * @param listabilletes Lista mutable de objetos Billetes que contienen los datos de los billetes disponibles
+ * @param scan lee los numeros que pone el usuario
+ */
 
 fun iniciarPrograma(listabilletes: MutableList<Billetes>, scan: Scanner) {
     var precioTotal: Double = 0.0
@@ -51,15 +70,37 @@ fun iniciarPrograma(listabilletes: MutableList<Billetes>, scan: Scanner) {
     pago(scan, precioTotal)
     usuario_ticket(scan, tiposBilletes, zonaSeleccionada, precioTotal) // Imprimir ticket si el usuario lo desea
 }
+/**
+ *@author Marc Cuenca
+ * @version 1.0
+ *
+ * @param scan lee los numeros que pone el usuario double
+ * @param return Devuelve el valor
+ */
 
 fun pedirNumero(scan: Scanner): Double {
     return scan.nextDouble()
 }
+/**
+ *@author Marc Cuenca
+ * @version 1.0
+ *
+ * @param scan lee los numeros que pone el usuario Int
+ * @param return Devuelve el valor
+ */
 
 fun pedirInt(scan: Scanner): Int {
-    return scan.nextInt().apply { scan.nextLine() }
+    return scan.nextInt()
 }
 
+/**
+ *
+ *@author Marc Cuenca
+ * @version 1.0
+ *
+ * @param preu_Billet crea una mutableList de los billetes con su precio de zona 1
+ * @param return Devuelve el valor
+ */
 fun preu_Billet(): MutableList<Billetes> {
     return mutableListOf(
         Billetes("billete sencillo", 2.40),
@@ -69,6 +110,15 @@ fun preu_Billet(): MutableList<Billetes> {
         Billetes("TJove", 80.00)
     )
 }
+/**
+ * Menu de tickets, hacemos un bucle que leera si el numnero del usuario es del 0 al 5 sino no acabara
+ *
+ *@author Marc Cuenca
+ * @version 1.0
+ *
+ * @param scan lee los numeros que pone el usuario Int
+ * @param return Devuelve el valor
+ */
 
 fun menu(scan: Scanner): Int {
     var tipo_billete: Int
@@ -99,6 +149,18 @@ fun menu(scan: Scanner): Int {
     return tipo_billete
 }
 
+/**
+ * Esta funcion hara un bucle de las zonas, si el usuario no pone el numero dentro de ese area no acabara el bucle
+ *
+ *@author Marc Cuenca
+ * @version 1.0
+ *
+ * @param listabilletes Lista mutable de objetos Billetes que contienen los datos de los billetes disponibles
+ * @param scan lee los numeros que pone el usuario
+ * @param zonas coge el valor del numero que devolvera
+ * @param return Devuelve el valor
+ *
+ */
 fun zona(listabilletes: MutableList<Billetes>, zonas: Int, scan: Scanner): Int {
     var zona: Int
     var continuar = false
@@ -128,11 +190,36 @@ fun zona(listabilletes: MutableList<Billetes>, zonas: Int, scan: Scanner): Int {
     return zona
 }
 
+/**
+ * Esta vuncion lo que hara es mostrar los billetes y las zonas que ha cogido el usuario
+ *
+ *@author Marc Cuenca
+ * @version 1.0
+ *
+ * @param listabilletes Lista mutable de objetos Billetes que contienen los datos de los billetes disponibles
+ * @param scan lee los numeros que pone el usuario
+ * @param zonas coge el valor de zonas
+ * @param zona coge el valor de zona
+ * @param return Devuelve el valor
+ *
+ */
 fun mostrarBillete(listabilletes: MutableList<Billetes>, zona: Int, zonas: Int) {
+
     val opcion_billete = listabilletes[zona - 1].billete
     tiposBilletes.add(opcion_billete)
     println("Ha escollit la opcio: $opcion_billete, zona $zona")
 }
+/**
+ * Esta funcion lo que hara es si el usuario qquiere seguir comprando o no
+ *
+ *@author Marc Cuenca
+ * @version 1.0
+ *
+ * @param scan lee los numeros que pone el usuario
+ * @param Boolean devolvera un resultado booleano
+ * @param return Devuelve el valor
+ *
+ */
 
 fun continua_o_no(scan: Scanner): Boolean {
     var continua = false
@@ -153,6 +240,19 @@ fun continua_o_no(scan: Scanner): Boolean {
     return continua
 }
 
+/**
+ * Esta funcion lo que hara es multiplicar el tipo de billete que haya escogido por la zona que haya escogido
+ *
+ *@author Marc Cuenca
+ * @version 1.0
+ *
+ * @param listabilletes Lista mutable de objetos Billetes que contienen los datos de los billetes disponibles
+ * @param zona coge el valor de zona
+ * @param tipoBilleteSeleccionado cogera el tipo de billete que haya escogido el usuario
+ * @param Double el resultado devolvera un Double
+ * @param return Devuelve el valor
+ *
+ */
 fun precio_zona(listabilletes: MutableList<Billetes>, zonas: Int, tipoBilleteSeleccionado: Int): Double {
     var zona_precio = listabilletes[tipoBilleteSeleccionado - 1].precio
     val multi_zona_2 = 1.3125
@@ -167,6 +267,17 @@ fun precio_zona(listabilletes: MutableList<Billetes>, zonas: Int, tipoBilleteSel
     billeteEscogidoZonaPrecio.add(zona_precio)
     return zona_precio
 }
+/**
+ * Esta funcion lo que hhara es mirar la lista de dineroaceptado y dira si el dinero que a introducido es  buneo o no
+ *
+ * @author Marc Cuenca
+ * @version 1.0
+ *
+ * @param scan lee los numeros que pone el usuario
+ * @param Int Devolvera el resultado Int
+ * @param return Devuelve el valor
+ *
+ */
 
 fun dinero(scan: Scanner): Int {
     var resultado: Int
@@ -182,6 +293,15 @@ fun dinero(scan: Scanner): Int {
     } while (!aceptado)
     return resultado
 }
+/**
+ * Esta funcion lo que hara es que dira el dinero que tiene que pagar el usuario y el dinero restante y el cambio que dara
+ *
+ * @author Marc Cuenca
+ * @version 1.0
+ *
+ * @param scan lee los numeros que pone el usuario
+ * @param precio cogera el precio del billete
+ */
 
 fun pago(scan: Scanner, precio: Double) {
     var precioRestante = precio
@@ -202,6 +322,19 @@ fun pago(scan: Scanner, precio: Double) {
     }
 }
 
+/**
+ * Esta funcion lo que hara es que dira si el usuario quera el ticket , si lo quiere lo imprimira, sino no
+ *
+ * @author Marc Cuenca
+ * @version 1.0
+ *
+ * @param scan lee los numeros que pone el usuario
+ * @param tiposBilletes cogera la lista de los tipos de billetes
+ * @param zona cogera el valor de zona
+ * @param precio cogera el valor de precio
+ *
+ */
+
 fun usuario_ticket(scan: Scanner, tiposBilletes: MutableList<String>, zona: Int, precio: Double) {
     println("Vol el Ticket? (S/N)")
     val ticket_si_no = scan.nextLine().uppercase()
@@ -212,6 +345,14 @@ fun usuario_ticket(scan: Scanner, tiposBilletes: MutableList<String>, zona: Int,
         println("Gracias por la compra.")
     }
 }
+/**
+ * Esta funcion lo que hara es que si el usuario si ha querido el ticket imprimira el ticketcon sus valores
+ *
+ * @author Marc Cuenca
+ * @version 1.0
+ * @param precio cogera el precio
+ * @param return Devuelve el valor
+ */
 
 fun imprimirTiquet() {
     println("----------TICKET----------")
