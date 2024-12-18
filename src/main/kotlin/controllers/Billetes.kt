@@ -53,13 +53,13 @@ fun iniciarPrograma(listabilletes: MutableList<Billetes>, scan: Scanner) {
         if (billete == 0) {
             println("No pots tirar enrere des d'aquesta etapa inicial.")
             etapas++
-            continue // Asegúrate de continuar el bucle
+
         }
 
         val zona = zona(listabilletes, zonas, scan)
         if (zona == 0) {
             etapas--
-            continue // Asegúrate de continuar el bucle
+
         }
 
         zonaSeleccionada = zona
